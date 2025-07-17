@@ -27,7 +27,7 @@ const Navbar = () => {
   return (
     <div className="flex h-20 items-center justify-between py-5 font-normal">
       <Link to={"/"}>
-        <img src={assets.logo} className="h-12" alt="Beviamo Logo" />
+        <img src={assets.logo} className="w-[120px]" alt="Beviamo Logo" />
       </Link>
       <ul className="hidden sm:flex gap-7 text-sm text-amber-900">
         <NavLink to={"/"} className="flex flex-col items-center gap-1">
@@ -50,7 +50,7 @@ const Navbar = () => {
           <hr className="w-full border-none h-[1.5px] mt-[-5px] bg-amber-900 hidden" />
         </NavLink>
       </ul>
-      <div className="flex items-center w-36">
+      <div className="flex items-center justify-center">
         <CiSearch
           className="w-10 text-amber-900 cursor-pointer hover:scale-110"
           size={25}

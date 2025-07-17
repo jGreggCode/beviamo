@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion"; // npm i framer-motion
 
+import DarkVeil from "../animated/DarkVeil";
+
 const messages = [
   "Welcome to our store",
   "Brew Better Days with Beviamo",
@@ -53,6 +55,15 @@ export default function Heading() {
 
   return (
     <div className="h-9 flex justify-center items-center bg-brown-dark">
+      <div className="w-full absolute h-80 md:h-28">
+        <DarkVeil
+          speed={3}
+          hueShift={213}
+          warpAmount={2}
+          noiseIntensity={0.04}
+          scanlineFrequency={5}
+        />
+      </div>
       <div className="relative flex w-[300px] md:w-[500px] justify-center items-center">
         <IoIosArrowBack
           onClick={prev}

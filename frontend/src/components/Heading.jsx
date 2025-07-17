@@ -54,17 +54,17 @@ export default function Heading() {
   };
 
   return (
-    <div className="h-9 flex justify-center items-center bg-brown-dark">
-      <div className="w-full absolute h-80 md:h-28">
+    <div className="h-full w-full py-2 flex flex-col justify-center items-center">
+      <div className="z-0 absolute top-0 left-0 w-full h-48 md:h-48">
         <DarkVeil
           speed={3}
           hueShift={213}
-          warpAmount={2}
+          warpAmount={5}
           noiseIntensity={0.04}
           scanlineFrequency={5}
         />
       </div>
-      <div className="relative flex w-[300px] md:w-[500px] justify-center items-center">
+      <div className="relative z-50 flex w-[300px] md:w-[500px] justify-center items-center">
         <IoIosArrowBack
           onClick={prev}
           className="absolute left-0 cursor-pointer text-sm text-gray-300 hover:scale-110 hover:text-gray-50"

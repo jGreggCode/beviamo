@@ -21,7 +21,7 @@ const App = () => {
       <div className="sticky top-0 z-50 bg-white px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
         <Navbar />
       </div>
-      <div className="relative px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
+      <div className="relative z-10 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
         <Routes>
           <Route path="/collection" element={<Collection />} />
           <Route path="/about" element={<About />} />

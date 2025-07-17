@@ -5,7 +5,7 @@ import BestSeller from "../components/BestSeller";
 
 const Home = () => {
   return (
-    <div>
+    <div className="">
       <div className="h-[500px] md:h-[700px] relative">
         <Hero />
       </div>

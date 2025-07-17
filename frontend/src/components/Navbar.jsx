@@ -25,7 +25,7 @@ const Navbar = () => {
   }, [visible]);
 
   return (
-    <div className="flex h-20 items-center justify-between py-5 font-normal">
+    <div className="flex h-20 items-center justify-between  py-5 font-normal">
       <Link to={"/"}>
         <img src={assets.logo} className="w-[120px]" alt="Beviamo Logo" />
       </Link>

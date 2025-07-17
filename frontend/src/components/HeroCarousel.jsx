@@ -14,9 +14,9 @@ const HeroCarousel = ({
 }) => {
   return (
     <div className="w-full relative">
-      <div className="w-full absolute">
+      <div className="w-full absolute bg-white">
         <div
-          className={`flex flex-col sm:flex-row border border-gray-400 relative inset-0 transition-opacity duration-1000 ${cn}`}
+          className={`z-50 flex flex-col sm:flex-row border border-gray-400 relative inset-0 transition-opacity duration-1000 ${cn}`}
         >
           {/* HERO LEFT */}
           <div className="w-full relative">
@@ -44,13 +44,13 @@ const HeroCarousel = ({
             {/* Navigation */}
             <button
               onClick={goBack}
-              className="absolute top-1/2 left-4 bg-black bg-opacity-30 text-white p-2 rounded-full hover:bg-opacity-100"
+              className="absolute top-1/2 z-50 left-4 bg-black bg-opacity-30 text-white p-2 rounded-full hover:bg-opacity-100"
             >
               <IoChevronBackSharp />
             </button>
             <button
               onClick={goNext}
-              className="absolute top-1/2 right-4 bg-black bg-opacity-30 text-white p-2 rounded-full hover:bg-opacity-50"
+              className="absolute top-1/2 right-4 bg-black bg-opacity-30 text-white p-2 rounded-full hover:bg-opacity-100"
             >
               <IoChevronForwardSharp />
             </button>

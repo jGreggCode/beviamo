@@ -16,7 +16,7 @@ const HeroCarousel = ({
     <div className="w-full relative">
       <div className="w-full absolute bg-white">
         <div
-          className={`z-50 flex flex-col sm:flex-row border border-gray-400 relative inset-0 transition-opacity duration-1000 ${cn}`}
+          className={`z-20 flex flex-col sm:flex-row border border-gray-400 relative inset-0 transition-opacity duration-1000 ${cn}`}
         >
           {/* HERO LEFT */}
           <div className="w-full relative">

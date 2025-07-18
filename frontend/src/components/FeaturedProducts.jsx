@@ -10,7 +10,6 @@ const FeaturedProducts = () => {
   const [latestProducts, setLatestProducts] = useState([]);
 
   useEffect(() => {
-    console.log("Products from context:", products);
     setLatestProducts(products.slice(0, 6));
   }, []);
   return (
@@ -30,6 +29,7 @@ const FeaturedProducts = () => {
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 gap-y-6">
         {latestProducts.map((item, index) => (
           <AnimatedContent
+            key={index}
             distance={60}
             direction="vertical"
             reverse={false}
@@ -42,7 +42,6 @@ const FeaturedProducts = () => {
             delay={0.3}
           >
             <ProdcutsItem
-              key={index}
               id={item._id}
               image={item.image}
               name={item.name}

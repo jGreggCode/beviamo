@@ -13,6 +13,7 @@ import PlaceOrder from "./pages/PlaceOrder";
 import Orders from "./pages/Orders";
 import Navbar from "./components/Navbar";
 import Heading from "./components/Heading";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -21,7 +22,7 @@ const App = () => {
       <div className="sticky top-0 z-50 bg-white px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
         <Navbar />
       </div>
-      <div className="relative z-10 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
+      <div className="relative bg-white z-10 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
         <Routes>
           <Route path="/collection" element={<Collection />} />
           <Route path="/about" element={<About />} />
@@ -36,6 +37,9 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
       </Routes>
+      <div className="bg-brown-background z-10 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
+        <Footer />
+      </div>
     </>
   );
 };

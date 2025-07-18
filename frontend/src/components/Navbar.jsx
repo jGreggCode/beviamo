@@ -4,11 +4,13 @@ import { CiShoppingCart } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
 import { BiMenuAltRight } from "react-icons/bi";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { TiArrowBackOutline } from "react-icons/ti";
+import { ShopContext } from "../context/ShopContext";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
+  const { setShowSearch } = useContext(ShopContext);
 
   // Inside Navbar component
   useEffect(() => {
@@ -52,6 +54,7 @@ const Navbar = () => {
       </ul>
       <div className="flex items-center justify-center">
         <CiSearch
+          onClick={() => setShowSearch(true)}
           className="w-10 text-amber-900 cursor-pointer hover:scale-110"
           size={25}
         />

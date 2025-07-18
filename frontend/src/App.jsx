@@ -14,6 +14,7 @@ import Orders from "./pages/Orders";
 import Navbar from "./components/Navbar";
 import Heading from "./components/Heading";
 import Footer from "./components/Footer";
+import SearchBar from "./components/SearchBar";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
       <Heading />
       <div className="sticky top-0 z-50 bg-white px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
         <Navbar />
+        <SearchBar />
       </div>
       <div className="relative bg-white z-10 px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
         <Routes>

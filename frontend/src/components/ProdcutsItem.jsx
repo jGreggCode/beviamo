@@ -21,7 +21,7 @@ const ProdcutsItem = ({ id, image, name, price }) => {
           alt="Product Image"
         />
       </div>
-      <p className="pb-1 text-sm">{name}</p>
+      <p className="mt-2 pb-1 text-sm">{name}</p>
       <p className="text-amber-900 text-lg">
         {currency + " "}
         {formattedPrice}

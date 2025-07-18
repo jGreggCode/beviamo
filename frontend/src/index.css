@@ -25,3 +25,7 @@ a.active {
 .text-dmsans {
   font-family: "DM Sans";
 }
+
+::-webkit-scrollbar {
+  display: none;
+}

@@ -1,5 +1,5 @@
 import { assets } from "../assets/assets";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { CiShoppingCart } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
@@ -9,6 +9,7 @@ import { TiArrowBackOutline } from "react-icons/ti";
 import { ShopContext } from "../context/ShopContext";
 
 const Navbar = () => {
+  const navigation = useNavigate();
   const [visible, setVisible] = useState(false);
   const { setShowSearch } = useContext(ShopContext);
 
@@ -54,7 +55,10 @@ const Navbar = () => {
       </ul>
       <div className="flex items-center justify-center">
         <CiSearch
-          onClick={() => setShowSearch(true)}
+          onClick={() => {
+            setShowSearch(true);
+            navigation("/collection");
+          }}
           className="w-10 text-amber-900 cursor-pointer hover:scale-110"
           size={25}
         />

@@ -119,6 +119,7 @@ export const products = [
     price: 200.0,
     image: [chamomile],
     category: "Allegro",
+    star: 2,
     subCategory: "Topwear",
     sizes: ["S", "M", "L"],
     date: 1716634345448,

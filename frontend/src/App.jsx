@@ -15,11 +15,14 @@ import Navbar from "./components/Navbar";
 import Heading from "./components/Heading";
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
     <>
       <Heading />
+      <ToastContainer />
       <div className="sticky top-0 z-50 bg-white px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
         <Navbar />
         <SearchBar />

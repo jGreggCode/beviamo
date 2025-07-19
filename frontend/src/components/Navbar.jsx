@@ -11,7 +11,7 @@ import { ShopContext } from "../context/ShopContext";
 const Navbar = () => {
   const navigation = useNavigate();
   const [visible, setVisible] = useState(false);
-  const { setShowSearch } = useContext(ShopContext);
+  const { setShowSearch, getCartCount } = useContext(ShopContext);
 
   // Inside Navbar component
   useEffect(() => {
@@ -82,9 +82,11 @@ const Navbar = () => {
             className="w-10 text-amber-900 cursor-pointer hover:scale-110"
             size={25}
           />
-          <p className="absolute right-1 bottom-[-3px] w-4 text-center leading-4 bg-amber-900 text-white aspect-square rounded-full text-[8px]">
-            10
-          </p>
+          {getCartCount() > 0 && (
+            <p className="absolute right-1 bottom-[-3px] w-4 text-center leading-4 bg-amber-900 text-white aspect-square rounded-full text-[8px]">
+              {getCartCount()}
+            </p>
+          )}
         </Link>
 
         <BiMenuAltRight

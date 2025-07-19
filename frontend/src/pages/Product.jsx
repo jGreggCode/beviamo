@@ -3,25 +3,28 @@ import { useParams } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 import StarRating from "../components/StarRating";
 import { FaRegCircleDot } from "react-icons/fa6";
+import { FaCheck } from "react-icons/fa";
+import RelatedProducts from "../components/RelatedProducts";
 
 const Product = () => {
   const { productId } = useParams();
-  const { products, currency } = useContext(ShopContext);
+  const { products, currency, addToCart } = useContext(ShopContext);
   const [productData, setProductData] = useState(false);
   const [image, setImage] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
   const fetchProductData = async () => {
     products.map((item) => {
       if (item._id === productId) {
         setProductData(item);
         setImage(item.image[0]);
-        console.log(item.image);
         return null;
       }
     });
   };
 
   useEffect(() => {
+    setQuantity(1);
     fetchProductData();
   }, [productId, products]);
   return productData ? (
@@ -33,6 +36,7 @@ const Product = () => {
           <div className="flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full">
             {productData.image.map((item, index) => (
               <img
+                onClick={() => setImage(item)}
                 src={item}
                 key={index}
                 className="w-[24%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer"
@@ -41,12 +45,7 @@ const Product = () => {
             ))}
           </div>
           <div className="w-full sm:w-[80%]">
-            <img
-              onClick={() => setImage(item)}
-              className="w-full h-auto"
-              src={image}
-              alt=""
-            />
+            <img className="w-full h-auto" src={image} alt="" />
           </div>
         </div>
         {/* Products Info */}
@@ -65,15 +64,60 @@ const Product = () => {
             {productData.description}
           </p>
           <div className="flex flex-col gap-4 my-8">
-            <p className="flex-1">
+            <p className="flex gap-2 text-lg text-gray-500">
               <span className="inline-flex">
                 <FaRegCircleDot className="text-green-700 h-full w-full" />
               </span>{" "}
               In stock
             </p>
           </div>
+          {/* QUANTITY */}
+          <div className="flex flex-col gap-1">
+            <p className="text-lg text-gray-500">Quantity:</p>
+            <div className="flex w-40 justify-around items-center py-2 border rounded-lg overflow-hidden">
+              <button
+                onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
+                className="px-3 py-1 text-xl text-gray-700"
+              >
+                -
+              </button>
+              <span className="px-4 text-lg font-medium">{quantity}</span>
+              <button
+                onClick={() => setQuantity((prev) => prev + 1)}
+                className="px-3 py-1 text-xl text-gray-700"
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <div className="flex flex-col gap-1 mt-4">
+            <button
+              onClick={() => addToCart(productData._id, quantity)}
+              className="w-1/2 bg-brown-primary text-white px-8 py-3 text-sm active:bg-brown-background rounded-lg hover:translate-y-[-2px] transition-all"
+            >
+              <p>ADD TO CART</p>
+            </button>
+            <button className="w-1/2 bg-brown-background text-white px-8 py-3 text-sm active:bg-brown-background rounded-lg hover:translate-y-[-2px] transition-all">
+              <p>BUY IT NOW</p>
+            </button>
+          </div>
+          <hr className="mt-8 sm:w-4/5" />
+          <div className="flex px-7 flex-col gap-2 text-gray-500 mt-5">
+            <p className="relative">
+              <FaCheck className="absolute top-1 left-[-25px] text-green-700" />{" "}
+              Pickup available at{" "}
+              <span className="font-medium text-black">Beviamo Store</span>
+            </p>
+            <p className="text-sm">Usually ready in 2 hours</p>
+            <p className="text-sm">100% Original Product</p>
+            <p className="underline cursor-pointer hover:text-black hover:font-medium">
+              View store information
+            </p>
+          </div>
         </div>
       </div>
+      {/* DISPLAY RELATED PROUCTS */}
+      <RelatedProducts category={productData.category} />
     </div>
   ) : (
     <div className="opacity-0">Product</div>

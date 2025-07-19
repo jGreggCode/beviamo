@@ -5,6 +5,7 @@ import StarRating from "../components/StarRating";
 import { FaRegCircleDot } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa";
 import RelatedProducts from "../components/RelatedProducts";
+import { formatPrice } from "../../public/utils/formatPrice";
 
 const Product = () => {
   const { productId } = useParams();
@@ -57,7 +58,7 @@ const Product = () => {
           </div>
           <p className="mt-5 text-3xl font-medium">
             {currency}
-            {productData.price}
+            {formatPrice(productData.price)}
           </p>
           <p className="text-sm md:text-xs">Tax included</p>
           <p className="mt-5 text-gray-500 md:w-4/5">

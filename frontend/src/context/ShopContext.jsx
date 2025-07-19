@@ -12,11 +12,6 @@ const ShopContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
 
   const addToCart = async (itemId, quantity) => {
-    if (quantity === 0) {
-      toast.error("Cannot be one!");
-      return;
-    }
-
     let cartData = structuredClone(cartItems);
     if (!cartData[itemId]) {
       cartData[itemId] = 0;
@@ -39,6 +34,15 @@ const ShopContextProvider = (props) => {
     return totalCount;
   };
 
+  const updateQuantity = async (itemId, quantity) => {
+    setCartItems((prev) => ({
+      // functional update = no race conditions
+      ...prev,
+      [itemId]: quantity, // overwrite the number directly
+    }));
+    toast.success("Successfully removed item");
+  };
+
   const value = {
     products,
     currency,
@@ -50,6 +54,7 @@ const ShopContextProvider = (props) => {
     cartItems,
     addToCart,
     getCartCount,
+    updateQuantity,
   };
 
   return (

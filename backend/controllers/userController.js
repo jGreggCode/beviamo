@@ -1,4 +1,5 @@
 import userModel from "../models/userModel.js";
+import adminModel from "../models/adminModel.js";
 import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -76,8 +77,70 @@ const registerUser = async (req, res) => {
 };
 
 // Admin Login
-const adminLogin = async (req, res) => {};
+const adminLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-const adminRegister = async (req, res) => {};
+    const admin = await adminModel.findOne({ email });
+
+    if (!admin) {
+      return res.json({ success: false, message: "Admin not found!" });
+    }
+
+    const isMatch = await bcrypt.compare(password, admin.password);
+
+    if (isMatch) {
+      const token = jwt.sign(process.env.ADMIN_AUTH, process.env.JWT_SECRET);
+      res.json({ success: true, token });
+    } else {
+      return res.json({ success: false, message: "Invalid password" });
+    }
+  } catch (error) {
+    console.error("Error in adminLogin controller", error);
+    res.json({ success: false, message: "Sign In Error" });
+  }
+};
+
+const adminRegister = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    // Check if user exist
+
+    const exists = await adminModel.findOne({ email });
+    if (exists) {
+      return res.json({ success: false, message: "Email already exists" });
+    }
+
+    // Validate Email format and Strong Password
+    if (!validator.isEmail(email)) {
+      return res.json({ success: false, message: "Please enter valid email" });
+    }
+    if (password.length < 8) {
+      return res.json({
+        success: false,
+        message: "Password cannot be less than 8 characters",
+      });
+    }
+
+    // Hash user password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newAdmin = new adminModel({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    const admin = await newAdmin.save();
+
+    const token = jwt.sign(process.env.ADMIN_AUTH, process.env.JWT_SECRET);
+
+    res.json({ success: true, token });
+  } catch (error) {
+    console.error("Error in login controller", error);
+    res.json({ success: false, message: "Sign Up Error" });
+  }
+};
 
 export { loginUser, registerUser, adminLogin, adminRegister };

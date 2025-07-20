@@ -76,14 +76,43 @@ const getProducts = async (req, res) => {
 
 // Remove product
 const removeProduct = async (req, res) => {
+  const { id } = req.params;
   try {
-  } catch (error) {}
+    const deleted = await productModel.findByIdAndDelete(id);
+
+    if (!deleted) {
+      // Query ran but matched zero documents
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    res.json({ success: true, message: "Product removed" });
+  } catch (error) {
+    console.error("Error in removeProduct controller", err);
+    res.status(500).json({ success: false, message: "Remove product error" });
+  }
 };
 
 // Get Product
 const getProductById = async (req, res) => {
+  const { id } = req.params;
   try {
-  } catch (error) {}
+    const product = await productModel.findById(id);
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    res.json({ success: true, product });
+  } catch (error) {
+    console.error("Error in removeProduct controller", err);
+    res.status(500).json({ success: false, message: "Remove product error" });
+  }
 };
 
 export { addProduct, getProducts, removeProduct, getProductById };

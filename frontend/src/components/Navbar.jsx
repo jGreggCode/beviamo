@@ -63,10 +63,12 @@ const Navbar = () => {
           size={25}
         />
         <div className="group relative">
-          <CiUser
-            className="w-10 text-amber-900 cursor-pointer hover:scale-110"
-            size={25}
-          />
+          <Link to={"/login"}>
+            <CiUser
+              className="w-10 text-amber-900 cursor-pointer hover:scale-110"
+              size={25}
+            />
+          </Link>
           <div className="group-hover:block hidden absolute dropdown-menu right-1 pt-4 z-50">
             <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
               <p className="cursor-pointer font-light text-amber-950">

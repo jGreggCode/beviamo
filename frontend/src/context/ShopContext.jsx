@@ -1,15 +1,17 @@
 import { createContext, useEffect, useState } from "react";
 import { products } from "../assets/assets";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
   const currency = "₱";
-  const deliveryFee = "100";
+  const deliveryFee = 100;
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});
+  const navigate = useNavigate();
 
   const addToCart = async (itemId, quantity) => {
     let cartData = structuredClone(cartItems);
@@ -40,7 +42,22 @@ const ShopContextProvider = (props) => {
       ...prev,
       [itemId]: quantity, // overwrite the number directly
     }));
-    toast.success("Successfully removed item");
+  };
+
+  const getCartAmount = () => {
+    let totalAmount = 0;
+
+    for (const itemId in cartItems) {
+      const quantity = cartItems[itemId];
+      if (quantity > 0) {
+        const itemInfo = products.find((product) => product._id == itemId);
+        if (itemInfo) {
+          totalAmount += itemInfo.price * quantity;
+        }
+      }
+    }
+
+    return totalAmount;
   };
 
   const value = {
@@ -55,6 +72,8 @@ const ShopContextProvider = (props) => {
     addToCart,
     getCartCount,
     updateQuantity,
+    getCartAmount,
+    navigate,
   };
 
   return (

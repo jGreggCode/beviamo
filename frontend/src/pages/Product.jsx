@@ -5,7 +5,7 @@ import StarRating from "../components/StarRating";
 import { FaRegCircleDot } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa";
 import RelatedProducts from "../components/RelatedProducts";
-import { formatPrice } from "../../public/utils/formatPrice";
+import { formatPrice } from "../utils/formatPrice";
 
 const Product = () => {
   const { productId } = useParams();

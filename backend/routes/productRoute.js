@@ -1,8 +1,11 @@
 import express from "express";
 import {
   addProduct,
+  editProduct,
   removeProduct,
+  removeProductInTAble,
   getProducts,
+  getProduct,
   getProductById,
 } from "../controllers/productController.js";
 import upload from "../middleware/multer.js";
@@ -21,8 +24,10 @@ productRouter.post(
   ]),
   addProduct
 );
+productRouter.post("/edit", adminAuth, editProduct);
 productRouter.delete("/:id", adminAuth, removeProduct);
+productRouter.post("/remove", adminAuth, removeProductInTAble);
 productRouter.get("/products", getProducts);
+productRouter.get("/get-product", getProduct);
 productRouter.get("/:id", getProductById);
-
 export default productRouter;

@@ -17,10 +17,12 @@ import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ScrollToTop from "./components/ScrollToTop";
 
 const App = () => {
   return (
     <>
+      <ScrollToTop />
       <Heading />
       <ToastContainer />
       <div className="sticky top-0 z-50 bg-white px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">

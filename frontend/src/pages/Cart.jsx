@@ -12,19 +12,21 @@ const Cart = () => {
   const [cartData, setCartData] = useState([]);
 
   useEffect(() => {
-    const tempData = [];
+    if (products.length > 0) {
+      const tempData = [];
 
-    for (const itemId in cartItems) {
-      if (cartItems[itemId] > 0) {
-        tempData.push({
-          _id: itemId,
-          quantity: cartItems[itemId],
-        });
+      for (const itemId in cartItems) {
+        if (cartItems[itemId] > 0) {
+          tempData.push({
+            _id: itemId,
+            quantity: cartItems[itemId],
+          });
+        }
       }
-    }
 
-    setCartData(tempData);
-  }, [cartItems]);
+      setCartData(tempData);
+    }
+  }, [cartItems, products]);
   return (
     <div className="border-t pt-14">
       <div className="text-2xl mb-3">

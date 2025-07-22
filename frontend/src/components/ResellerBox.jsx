@@ -11,7 +11,7 @@ const ResellerBox = () => {
   };
   return (
     <div className="text-center mb-20">
-      <p className="text-2xl font-medium brown-regular">
+      <div className="text-2xl font-medium brown-regular">
         <SplitText
           text="Become a reseller in your area & get a discount"
           className="text-2xl font-semibold text-center"
@@ -26,7 +26,7 @@ const ResellerBox = () => {
           textAlign="center"
           onLetterAnimationComplete={handleAnimationComplete}
         />
-      </p>
+      </div>
       <p className="brown-regular mt-3">
         Lorem ipsum dolor sit amet consectetur adipisicing elit.
       </p>

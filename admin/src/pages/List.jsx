@@ -13,6 +13,10 @@ import { categories } from "../assets/category";
 
 const List = ({ token }) => {
   const [list, setList] = useState([]);
+
+  const [allProducts, setAllProducts] = useState([]); // full unfiltered list
+  const [searchTerm, setSearchTerm] = useState("");
+
   const [showModal, setShowModal] = useState(false);
   const [productId, setProductId] = useState("");
   const [product, setProduct] = useState({});
@@ -42,27 +46,91 @@ const List = ({ token }) => {
           params: { id }, // send it directly
         }
       );
-      setProduct(response.data.product);
+      const productData = response.data.product;
 
-      setName(product.name);
-      setDescription(product.description);
-      setCategory(product.category);
-      setPrice(product.price);
-      setQuantity(product.quantity);
+      setImage1(productData.image[0] || false);
+      setImage2(productData.image[1] || false);
+      setImage3(productData.image[2] || false);
+      setImage4(productData.image[3] || false);
+
+      setName(productData.name);
+      setDescription(productData.description);
+      setCategory(productData.category);
+      setPrice(productData.price);
+      setQuantity(productData.quantity);
+      setBestSeller(productData.bestSeller);
     } catch (error) {
       console.error(error);
       toast.error(error.message);
     }
   };
 
-  const onSubmitHandler = async (e) => {
+  const onEditHandler = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    try {
+      const formData = new FormData();
+
+      formData.append("id", productId);
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("category", category);
+      formData.append("price", price);
+      formData.append("quantity", quantity);
+      formData.append("bestSeller", bestSeller);
+
+      // Preserve existing URLs
+      formData.append(
+        "existingImages",
+        JSON.stringify([
+          typeof image1 === "string" ? image1 : null,
+          typeof image2 === "string" ? image2 : null,
+          typeof image3 === "string" ? image3 : null,
+          typeof image4 === "string" ? image4 : null,
+        ])
+      );
+
+      // Append only new files
+      if (image1 instanceof File) formData.append("image1", image1);
+      if (image2 instanceof File) formData.append("image2", image2);
+      if (image3 instanceof File) formData.append("image3", image3);
+      if (image4 instanceof File) formData.append("image4", image4);
+
+      const response = await axios.post(
+        backendUrl + "/api/product/edit",
+        formData,
+        { headers: { token } }
+      );
+
+      console.log(response);
+
+      if (response.data.success) {
+        toast.success(response.data.message);
+        await fetchList(); // refresh table
+        setShowModal(false);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRemoveImages = () => {
+    setImage1(false);
+    setImage2(false);
+    setImage3(false);
+    setImage4(false);
   };
 
   const fetchList = async () => {
     try {
       const response = await axios.get(backendUrl + "/api/product/products");
       if (response.data.success) {
+        setAllProducts(response.data.products);
         setList(response.data.products);
       } else {
         toast.error(response.data.message);
@@ -94,6 +162,13 @@ const List = ({ token }) => {
   };
 
   useEffect(() => {
+    const filtered = allProducts.filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setList(filtered);
+  }, [searchTerm, allProducts]);
+
+  useEffect(() => {
     fetchList();
   }, []);
   return (
@@ -110,18 +185,30 @@ const List = ({ token }) => {
           </div>
 
           <form
-            onSubmit={onSubmitHandler}
+            onSubmit={onEditHandler}
             className="flex flex-col w-full items-start gap-3"
           >
             <div>
-              <p className="mb-2">Upload Image</p>
-
+              <p className="flex gap-3 items-center mb-2">
+                Upload Image
+                <button
+                  type="button"
+                  onClick={handleRemoveImages}
+                  className="cursor-pointer text-red-500 underline"
+                >
+                  Remove Images
+                </button>
+              </p>
               <div className="flex gap-2">
                 <label htmlFor="image1">
                   <img
                     className="w-20 cursor-pointer"
                     src={
-                      !image1 ? assets.upload_area : URL.createObjectURL(image1)
+                      !image1
+                        ? assets.upload_area
+                        : typeof image1 === "string"
+                        ? image1
+                        : URL.createObjectURL(image1)
                     }
                     alt=""
                   />
@@ -136,7 +223,11 @@ const List = ({ token }) => {
                   <img
                     className="w-20 cursor-pointer"
                     src={
-                      !image2 ? assets.upload_area : URL.createObjectURL(image2)
+                      !image2
+                        ? assets.upload_area
+                        : typeof image2 === "string"
+                        ? image2
+                        : URL.createObjectURL(image2)
                     }
                     alt=""
                   />
@@ -151,7 +242,11 @@ const List = ({ token }) => {
                   <img
                     className="w-20 cursor-pointer"
                     src={
-                      !image3 ? assets.upload_area : URL.createObjectURL(image3)
+                      !image3
+                        ? assets.upload_area
+                        : typeof image3 === "string"
+                        ? image3
+                        : URL.createObjectURL(image3)
                     }
                     alt=""
                   />
@@ -166,7 +261,11 @@ const List = ({ token }) => {
                   <img
                     className="w-20 cursor-pointer"
                     src={
-                      !image4 ? assets.upload_area : URL.createObjectURL(image4)
+                      !image4
+                        ? assets.upload_area
+                        : typeof image4 === "string"
+                        ? image4
+                        : URL.createObjectURL(image4)
                     }
                     alt=""
                   />
@@ -259,13 +358,22 @@ const List = ({ token }) => {
               type="submit"
               className="w-28 py-3 mt-4 bg-brown-primary text-white"
             >
-              {loading ? "Adding..." : "ADD"}
+              {loading ? "Editting..." : "EDIT"}
             </button>
           </form>
         </div>
       ) : (
         <>
-          <p className="mb-2">All Products ({list.length} products)</p>
+          <p className="mb-2 flex items-center justify-between">
+            All Products ({list.length} products)
+            <input
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="px-3 py-1"
+              type="text"
+              placeholder="Search product"
+            />
+          </p>
           <div className="flex flex-col gap-2">
             {/* LIST TABLE */}
             <div className="hidden md:grid grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] items-center py-1 px-2 border text-sm">

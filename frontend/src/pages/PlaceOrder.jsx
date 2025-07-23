@@ -3,6 +3,8 @@ import Title from "../components/Title";
 import CartTotal from "../components/CartTotal";
 import { assets } from "../assets/assets";
 import { ShopContext } from "../context/ShopContext";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const PlaceOrder = () => {
   const {
@@ -14,6 +16,7 @@ const PlaceOrder = () => {
     getCartAmount,
     deliveryFee,
     products,
+    getProductsData,
   } = useContext(ShopContext);
   const [method, setMethod] = useState("cod");
   const [formData, setFormData] = useState({
@@ -38,12 +41,56 @@ const PlaceOrder = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
+    console.log(cartItems);
+
     try {
       let orderItems = [];
 
-      for (const items in cartItems) {
+      for (const productId in cartItems) {
+        const quantity = cartItems[productId];
+
+        if (quantity > 0) {
+          const itemInfo = structuredClone(
+            products.find((product) => product._id === productId)
+          );
+
+          if (itemInfo) {
+            itemInfo.quantity = quantity;
+            orderItems.push(itemInfo);
+          }
+        }
       }
-    } catch (error) {}
+
+      let orderData = {
+        address: formData,
+        items: orderItems,
+        amount: getCartAmount() + deliveryFee,
+      };
+
+      switch (method) {
+        case "cod":
+          const respose = await axios.post(
+            backendUrl + "/api/order/place",
+            orderData,
+            {
+              headers: { token },
+            }
+          );
+          if (respose.data.success) {
+            setCartItems({});
+            navigate("/orders");
+          } else {
+            toast.error(respose.data.message);
+          }
+          break;
+        default:
+          break;
+      }
+      getProductsData();
+    } catch (error) {
+      console.error("Error placing order:", error);
+      toast.error("Failed to place order. Please try again.");
+    }
   };
 
   return (

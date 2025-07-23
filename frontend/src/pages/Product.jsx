@@ -27,7 +27,7 @@ const Product = () => {
   useEffect(() => {
     setQuantity(1);
     fetchProductData();
-  }, [productId, products]);
+  }, [productId, products, productData]);
   return productData ? (
     <div className="border-t-2 pb-10 pt-10 transition-opacity ease-in duration-500 opacity-100">
       {/* Product Data */}
@@ -92,7 +92,11 @@ const Product = () => {
               </button>
               <span className="px-4 text-lg font-medium">{quantity}</span>
               <button
-                onClick={() => setQuantity((prev) => prev + 1)}
+                onClick={() =>
+                  setQuantity((prev) =>
+                    Math.min(productData.quantity, prev + 1)
+                  )
+                }
                 className="px-3 py-1 text-xl text-gray-700"
               >
                 +
@@ -101,7 +105,13 @@ const Product = () => {
           </div>
           <div className="flex flex-col gap-1 mt-4">
             <button
-              onClick={() => addToCart(productData._id, quantity)}
+              onClick={() => {
+                if (quantity > productData.quantity) {
+                  alert("Not enough stock");
+                  return;
+                }
+                addToCart(productData._id, quantity);
+              }}
               className="w-1/2 bg-brown-primary text-white px-8 py-3 text-sm active:bg-brown-background rounded-lg hover:translate-y-[-2px] transition-all"
             >
               <p>ADD TO CART</p>

@@ -5,7 +5,6 @@ import { formatPrice } from "../utils/formatPrice";
 
 const CartTotal = () => {
   const { currency, deliveryFee, getCartAmount } = useContext(ShopContext);
-  console.log(getCartAmount());
 
   return (
     <div className="w-full">
